@@ -148,7 +148,7 @@
 
     <section id="results" class="mb-12">
       <h2 class="text-3xl font-bold mb-2 text-center text-white">Campanhas Encontradas</h2>
-      <p id="results-count" class="text-center text-gray-400 mb-8">Exibindo todas as 16 campanhas.</p>
+      <p id="results-count" class="text-center text-gray-400 mb-8">Exibindo todas as 17 campanhas.</p>
       <div id="campaign-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       </div>
     </section>
@@ -192,6 +192,7 @@
 
   <script>
     const campaignData = [
+      { id: 'tyranny', name: 'Tyranny of Dragons', levels: [1, 15], structure: 'Linear', difficultyDM: 'Difícil', difficultyP: 'Média', tags: ['Dragões', 'Épico', 'Culto', 'Político'], pros: 'Saga épica contra Tiamat; viagem pela Costa da Espada', cons: 'Estrutura linear rígida; requer muito trabalho do Mestre para corrigir problemas de balanceamento e narrativa', summary: 'A primeira grande saga da 5e. Os aventureiros descobrem uma conspiração do Culto do Dragão para trazer a deusa-dragão de cinco cabeças, Tiamat, para o mundo. A campanha é uma corrida contra o tempo pela Costa da Espada para impedir o apocalipse.' },
       { id: 'candlekeep', name: 'Candlekeep Mysteries', levels: [1, 16], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', tags: ['Mistério', 'Exploração', 'Social'], pros: 'Aventuras criativas; fácil de adaptar', cons: 'Qualidade inconsistente; sem trama central', summary: 'Uma coleção de dezessete aventuras curtas e independentes, cada uma originada a partir de um livro encontrado na lendária biblioteca-fortaleza de Candlekeep.' },
       { id: 'avernus', name: 'Baldur\'s Gate: Descent Into Avernus', levels: [1, 13], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Difícil', tags: ['Horror Infernal', 'Guerra', 'Pactos', 'Exploração'], pros: 'Cenário de Avernus; Máquinas de Guerra', cons: 'Início fraco; requer trabalho do Mestre', summary: 'Uma campanha épica e sombria que arrasta os jogadores para Avernus, a primeira camada dos Nove Infernos, para salvar a cidade de Elturel.' },
       { id: 'dragonlance', name: 'Dragonlance: Shadow of the Dragon Queen', levels: [1, 11], structure: 'Híbrida', difficultyDM: 'Moderada', difficultyP: 'Difícil', tags: ['Guerra', 'Épico', 'Militar', 'Combate em Larga Escala'], pros: 'Senso de escala épico; tema de guerra', cons: 'Início linear; trama confusa sobre o vilão', summary: 'Ambientada durante a Guerra da Lança, os jogadores enfrentam os Exércitos Dragão de Takhisis.' },
@@ -285,7 +286,7 @@
           grid.appendChild(card);
         });
       }
-      document.getElementById('results-count').textContent = `Exibindo ${campaigns.length} de 16 campanhas.`;
+      document.getElementById('results-count').textContent = `Exibindo ${campaigns.length} de 17 campanhas.`;
     }
 
     function filterAndRender() {
