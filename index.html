@@ -15,13 +15,14 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #FDFBF5;
-      color: #4A4A4A;
+      background-color: #111827;
+      color: #d1d5db;
     }
 
     h1,
     h2,
-    h3 {
+    h3,
+    h4 {
       font-family: 'Playfair Display', serif;
     }
 
@@ -36,9 +37,9 @@
     }
 
     .active-filter {
-      background-color: #A0522D !important;
+      background-color: #D97706 !important;
       color: #FFFFFF !important;
-      border-color: #A0522D !important;
+      border-color: #D97706 !important;
     }
 
     .recommendation-btn {
@@ -47,7 +48,7 @@
 
     .recommendation-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .campaign-card {
@@ -57,7 +58,7 @@
 
     .campaign-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
 
     .modal {
@@ -72,88 +73,97 @@
 
 <body class="antialiased">
 
-  <header class="text-center py-10 px-4 bg-white shadow-sm">
-    <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Guia Interativo de Campanhas D&D 5e</h1>
-    <p class="mt-4 text-lg max-w-3xl mx-auto text-gray-600">Encontre a aventura perfeita para seu grupo. Use os filtros
+  <header class="text-center py-10 px-4 bg-gray-800 border-b border-gray-700">
+    <h1 class="text-4xl md:text-5xl font-bold text-white">Guia Interativo de Campanhas D&D 5e</h1>
+    <p class="mt-4 text-lg max-w-3xl mx-auto text-gray-400">Encontre a aventura perfeita para seu grupo. Use os filtros
       para explorar, comparar e decidir sua próxima grande jornada!</p>
   </header>
 
   <main class="container mx-auto px-4 py-8">
 
-    <section id="filters" class="mb-12 p-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold mb-6 text-center text-gray-700">Filtros de Busca</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section id="filters" class="mb-12 p-6 bg-gray-800 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-6 text-center text-white">Filtros de Busca</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div>
-          <label for="search-name" class="block text-sm font-medium text-gray-700 mb-1">Buscar por Nome</label>
+          <label for="search-name" class="block text-sm font-medium text-gray-300 mb-1">Buscar por Nome</label>
           <input type="text" id="search-name"
-            class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-amber-800 focus:border-amber-800">
+            class="w-full p-2 border border-gray-600 bg-gray-700 text-white rounded-md shadow-sm focus:ring-amber-500 focus:border-amber-500">
         </div>
         <div>
-          <label for="level-range" class="block text-sm font-medium text-gray-700 mb-1">Nível Final Desejado: <span
-              id="level-value" class="font-bold">20</span></label>
+          <label for="level-range" class="block text-sm font-medium text-gray-300 mb-1">Nível Final Desejado: <span
+              id="level-value" class="font-bold text-white">20</span></label>
           <input type="range" id="level-range" min="1" max="20" value="20"
-            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-amber-800">
+            class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-amber-600">
         </div>
-        <div class="lg:col-span-2">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Estilo de Jogo</label>
-          <div id="style-filters" class="flex flex-wrap gap-2">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Estrutura da Campanha</label>
+          <div id="structure-filters" class="flex flex-wrap gap-2">
+          </div>
+        </div>
+        <div class="lg:col-span-3">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Temática / Gênero</label>
+          <div id="tags-filters" class="flex flex-wrap gap-2">
           </div>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Dificuldade (Jogador)</label>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Dificuldade (Jogador)</label>
           <div id="player-difficulty-filters" class="flex flex-wrap gap-2">
           </div>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Dificuldade (Mestre)</label>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Dificuldade (Mestre)</label>
           <div id="dm-difficulty-filters" class="flex flex-wrap gap-2">
           </div>
         </div>
-        <div class="md:col-span-2 lg:col-span-4 flex justify-center mt-4">
+        <div class="lg:col-span-3 flex justify-center mt-4">
           <button id="reset-filters"
-            class="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors">Limpar
+            class="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500 transition-colors">Limpar
             Filtros</button>
         </div>
       </div>
     </section>
 
     <section id="recommendations" class="mb-12">
-      <h2 class="text-3xl font-bold mb-6 text-center text-gray-700">Não sabe por onde começar?</h2>
-      <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Clique em um perfil abaixo para ver nossas
+      <h2 class="text-3xl font-bold mb-6 text-center text-white">Não sabe por onde começar?</h2>
+      <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto">Clique em um perfil abaixo para ver nossas
         recomendações. Isso aplicará um conjunto de filtros para te ajudar a encontrar a campanha ideal.</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
-        <button data-rec="new-dm" class="recommendation-btn bg-white p-4 rounded-lg shadow hover:shadow-lg border">
+        <button data-rec="new-dm"
+          class="recommendation-btn bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg border border-gray-700 hover:bg-gray-700">
           Mestre Iniciante</button>
         <button data-rec="roleplay"
-          class="recommendation-btn bg-white p-4 rounded-lg shadow hover:shadow-lg border">Amantes de Roleplay</button>
-        <button data-rec="combat" class="recommendation-btn bg-white p-4 rounded-lg shadow hover:shadow-lg border">Fãs
+          class="recommendation-btn bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg border border-gray-700 hover:bg-gray-700">Amantes
+          de Roleplay</button>
+        <button data-rec="combat"
+          class="recommendation-btn bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg border border-gray-700 hover:bg-gray-700">Fãs
           de Combate</button>
         <button data-rec="epic"
-          class="recommendation-btn bg-white p-4 rounded-lg shadow hover:shadow-lg border">Aventura Épica (Nível
-          Alto)</button>
-        <button data-rec="diy" class="recommendation-btn bg-white p-4 rounded-lg shadow hover:shadow-lg border">Mestre
+          class="recommendation-btn bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg border border-gray-700 hover:bg-gray-700">Aventura
+          Épica (Nível Alto)</button>
+        <button data-rec="diy"
+          class="recommendation-btn bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg border border-gray-700 hover:bg-gray-700">Mestre
           "Faça Você Mesmo"</button>
       </div>
     </section>
 
     <section id="results" class="mb-12">
-      <h2 class="text-3xl font-bold mb-2 text-center text-gray-700">Campanhas Encontradas</h2>
-      <p id="results-count" class="text-center text-gray-600 mb-8">Exibindo todas as 16 campanhas.</p>
+      <h2 class="text-3xl font-bold mb-2 text-center text-white">Campanhas Encontradas</h2>
+      <p id="results-count" class="text-center text-gray-400 mb-8">Exibindo todas as 16 campanhas.</p>
       <div id="campaign-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       </div>
     </section>
 
-    <section id="charts" class="mb-12 p-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-3xl font-bold mb-8 text-center text-gray-700">Visualização Comparativa</h2>
+    <section id="charts" class="mb-12 p-6 bg-gray-800 rounded-lg shadow-md">
+      <h2 class="text-3xl font-bold mb-8 text-center text-white">Visualização Comparativa</h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div>
-          <h3 class="text-xl font-bold mb-4 text-center text-gray-600">Dificuldade: Jogador vs. Mestre</h3>
+          <h3 class="text-xl font-bold mb-4 text-center text-gray-200">Dificuldade: Jogador vs. Mestre</h3>
           <div class="chart-container">
             <canvas id="difficultyChart"></canvas>
           </div>
         </div>
         <div>
-          <h3 class="text-xl font-bold mb-4 text-center text-gray-600">Faixa de Níveis</h3>
+          <h3 class="text-xl font-bold mb-4 text-center text-gray-200">Faixa de Níveis</h3>
           <div class="chart-container">
             <canvas id="levelChart"></canvas>
           </div>
@@ -163,45 +173,46 @@
   </main>
 
   <div id="campaign-modal"
-    class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+    class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
     <div
-      class="modal-content bg-white w-full max-w-4xl max-h-[90vh] rounded-lg shadow-2xl overflow-y-auto transform scale-95">
-      <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center z-10">
-        <h2 id="modal-title" class="text-3xl font-bold text-gray-800"></h2>
-        <button id="modal-close" class="text-3xl text-gray-500 hover:text-gray-800">&times;</button>
+      class="modal-content bg-gray-800 w-full max-w-4xl max-h-[90vh] rounded-lg shadow-2xl overflow-y-auto transform scale-95 border border-gray-700">
+      <div class="sticky top-0 bg-gray-800 p-4 border-b border-gray-700 flex justify-between items-center z-10">
+        <h2 id="modal-title" class="text-3xl font-bold text-white"></h2>
+        <button id="modal-close" class="text-3xl text-gray-400 hover:text-white">&times;</button>
       </div>
       <div id="modal-body" class="p-6">
       </div>
     </div>
   </div>
 
-  <footer class="text-center py-6 mt-12 border-t border-gray-200">
+  <footer class="text-center py-6 mt-12 border-t border-gray-700">
     <p class="text-gray-500">Criado com base no relatório "Análise Comparativa Exaustiva das Campanhas de Dungeons &
       Dragons 5ª Edição".</p>
   </footer>
 
   <script>
     const campaignData = [
-      { id: 'candlekeep', name: 'Candlekeep Mysteries', levels: [1, 16], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', focus: ['Mistério', 'Exploração', 'Social'], pros: 'Aventuras criativas; fácil de adaptar', cons: 'Qualidade inconsistente; sem trama central', summary: 'Uma coleção de dezessete aventuras curtas e independentes, cada uma originada a partir de um livro encontrado na lendária biblioteca-fortaleza de Candlekeep. O fio condutor é o mistério, com um forte incentivo à curiosidade e à resolução de problemas.' },
-      { id: 'avernus', name: 'Baldur\'s Gate: Descent Into Avernus', levels: [1, 13], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Difícil', focus: ['Combate', 'Exploração', 'Pactos'], pros: 'Cenário de Avernus; Máquinas de Guerra', cons: 'Início fraco; requer trabalho do Mestre', summary: 'Uma campanha épica e sombria que arrasta os jogadores para Avernus, a primeira camada dos Nove Infernos, para salvar a cidade de Elturel. Temática de horror infernal, corrupção moral e guerra.' },
-      { id: 'dragonlance', name: 'Dragonlance: Shadow of the Dragon Queen', levels: [1, 11], structure: 'Híbrida', difficultyDM: 'Moderada', difficultyP: 'Difícil', focus: ['Combate em Larga Escala', 'Guerra'], pros: 'Senso de escala épico; tema de guerra', cons: 'Início linear; trama confusa sobre o vilão', summary: 'Ambientada durante a Guerra da Lança, os jogadores enfrentam os Exércitos Dragão de Takhisis. Foco em temas militares, heroísmo e o drama da guerra.' },
-      { id: 'saltmarsh', name: 'Ghosts of Saltmarsh', levels: [1, 10], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', focus: ['Exploração Naval', 'Social', 'Combate'], pros: 'Ótimo "toolkit" naval; intriga política', cons: 'Requer trabalho para ligar as tramas', summary: 'Uma antologia de sete aventuras clássicas com tema náutico, centradas na cidade portuária de Saltmarsh. Envolve contrabando, piratas e monstros marinhos.' },
-      { id: 'frostmaiden', name: 'Icewind Dale: Rime of the Frostmaiden', levels: [1, 12], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Muito Difícil', focus: ['Horror', 'Sobrevivência', 'Exploração'], pros: 'Atmosfera única; segredos dos personagens', cons: 'Narrativa fragmentada; dificuldade extrema', summary: 'Uma campanha de horror e sobrevivência no Vale do Vento Gélido, onde um inverno eterno ameaça as Dez Cidades. Temas de isolamento, paranoia e segredos sombrios.' },
-      { id: 'radiantcitadel', name: 'Journeys through the Radiant Citadel', levels: [1, 14], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', focus: ['Exploração Cultural', 'Social'], pros: 'Diversidade de cenários; roleplay rico', cons: 'Qualidade inconsistente; sem trama central', summary: 'Uma antologia com treze aventuras inspiradas em culturas não-europeias, conectadas pela mágica Cidadela Radiante. Foco em interação cultural e resolução de conflitos sociais.' },
-      { id: 'goldenvault', name: 'Keys from the Golden Vault', levels: [1, 11], structure: 'Antologia', difficultyDM: 'Média', difficultyP: 'Média', focus: ['Planejamento', 'Furtividade', 'Assaltos'], pros: 'Tema de "heist" divertido; mapas para jogadores', cons: 'Sistema 5e não ideal para assaltos', summary: 'Uma coleção de treze aventuras de assalto (heist) no estilo de "Onze Homens e um Segredo". O foco está no planejamento, furtividade e resolução criativa de problemas.' },
-      { id: 'abyss', name: 'Out of the Abyss', levels: [1, 15], structure: 'Híbrida', difficultyDM: 'Difícil', difficultyP: 'Difícil', focus: ['Sobrevivência', 'Exploração', 'Underdark'], pros: '1ª metade é tensa e memorável; ótimo guia do Underdark', cons: '2ª metade repetitiva; muitos NPCs', summary: 'Uma campanha de sobrevivência e horror no Underdark, começando com os personagens como prisioneiros dos drow. A trama envolve a ascensão de Lordes Demônios.' },
-      { id: 'phandelver', name: 'Phandelver and Below: The Shattered Obelisk', levels: [1, 12], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Crescente', focus: ['Fantasia Clássica', 'Horror Cósmico'], pros: 'Expande a amada LMoP; conceito interessante', cons: 'Transição abrupta; segunda parte linear e falha', summary: 'Expande a aventura introdutória "Mina Perdida de Phandelver" com uma trama de horror cósmico envolvendo Devoradores de Mentes e um misterioso obelisco.' },
-      { id: 'apocalypse', name: 'Princes of the Apocalypse', levels: [1, 15], structure: 'Sandbox', difficultyDM: 'Média', difficultyP: 'Difícil', focus: ['Dungeon Crawl', 'Combate'], pros: 'Grande liberdade; muitas masmorras', cons: 'Risco de TPK; pode ser repetitivo', summary: 'Uma campanha sandbox massiva focada em derrotar quatro cultos apocalípticos devotados ao Mal Elemental. Fortemente focada em exploração de masmorras.' },
-      { id: 'staircase', name: 'Quests from the Infinite Staircase', levels: [1, 13], structure: 'Antologia', difficultyDM: 'Média', difficultyP: 'Difícil', focus: ['Exploração Old School', 'Combate'], pros: 'Celebração da história de D&D; diversidade', cons: 'Design datado pode não agradar a todos', summary: 'Uma antologia que atualiza seis aventuras clássicas de várias eras do jogo. A temática é diversa, variando de exploração de tumbas a ficção científica.' },
-      { id: 'netherdeep', name: 'Critical Role: Call of the Netherdeep', levels: [3, 12], structure: 'Linear', difficultyDM: 'Fácil', difficultyP: 'Fácil', focus: ['Narrativa', 'Social', 'Rivalidade'], pros: 'Mecânica de grupo rival; foco em roleplay', cons: 'Ritmo acelerado; menos conteúdo por nível', summary: 'Ambientada em Exandria, esta campanha foca na narrativa e na rivalidade com outro grupo de aventureiros enquanto desvenda o mistério de um deus aprisionado.' },
-      { id: 'fortuneswheel', name: 'Turn of Fortune\'s Wheel', levels: [3, 17], structure: 'Linear', difficultyDM: 'Média', difficultyP: 'Média', focus: ['Exploração Planar', 'Conceitual'], pros: 'Captura a essência de Planescape; mecânica de renascimento', cons: 'Trama pode ser confusa; salto de nível estranho', summary: 'A primeira campanha de Planescape para 5e, levando os jogadores por Sigil e as Terras Distantes para desvendar uma conspiração multiversal.' },
-      { id: 'madmage', name: 'Waterdeep: Dungeon of the Mad Mage', levels: [5, 20], structure: 'Dungeon Crawl', difficultyDM: 'Difícil', difficultyP: 'Difícil', focus: ['Dungeon Crawl', 'Exploração', 'Combate'], pros: 'A maior e melhor megadungeon da 5e', cons: 'Sem enredo abrangente; muito repetitivo', summary: 'Uma "megadungeon" de 23 níveis sob Waterdeep. É uma campanha de exploração, combate e pilhagem em uma escala monumental, ideal para fãs de "dungeon crawl".' },
-      { id: 'vecna', name: 'Vecna: Eve of Ruin', levels: [10, 20], structure: 'Linear', difficultyDM: 'Média', difficultyP: 'Alta', focus: ['Combate de Alto Nível', 'Épico'], pros: 'Turnê pelo multiverso; muito "fan service"', cons: 'Exploração superficial dos mundos', summary: 'Uma campanha épica de alto nível contra o deus-lich Vecna. Os jogadores viajam por cenários icônicos para reunir o Cajado de Sete Partes e salvar o multiverso.' },
-      { id: 'asmodeus', name: 'Chains of Asmodeus', levels: [11, 20], structure: 'Linear', difficultyDM: 'Difícil', difficultyP: 'Muito Alta', focus: ['Combate Infernal', 'Exploração'], pros: 'Guia definitivo dos Nove Infernos; campanha de alto nível', cons: 'Extremamente linear; falta de mapas de batalha', summary: 'Uma campanha massiva de alto nível que leva os jogadores por todas as nove camadas dos Nove Infernos para resgatar uma alma condenada. Temática de horror, tentação e corrupção.' },
+      { id: 'candlekeep', name: 'Candlekeep Mysteries', levels: [1, 16], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', tags: ['Mistério', 'Exploração', 'Social'], pros: 'Aventuras criativas; fácil de adaptar', cons: 'Qualidade inconsistente; sem trama central', summary: 'Uma coleção de dezessete aventuras curtas e independentes, cada uma originada a partir de um livro encontrado na lendária biblioteca-fortaleza de Candlekeep.' },
+      { id: 'avernus', name: 'Baldur\'s Gate: Descent Into Avernus', levels: [1, 13], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Difícil', tags: ['Horror Infernal', 'Guerra', 'Pactos', 'Exploração'], pros: 'Cenário de Avernus; Máquinas de Guerra', cons: 'Início fraco; requer trabalho do Mestre', summary: 'Uma campanha épica e sombria que arrasta os jogadores para Avernus, a primeira camada dos Nove Infernos, para salvar a cidade de Elturel.' },
+      { id: 'dragonlance', name: 'Dragonlance: Shadow of the Dragon Queen', levels: [1, 11], structure: 'Híbrida', difficultyDM: 'Moderada', difficultyP: 'Difícil', tags: ['Guerra', 'Épico', 'Militar', 'Combate em Larga Escala'], pros: 'Senso de escala épico; tema de guerra', cons: 'Início linear; trama confusa sobre o vilão', summary: 'Ambientada durante a Guerra da Lança, os jogadores enfrentam os Exércitos Dragão de Takhisis.' },
+      { id: 'saltmarsh', name: 'Ghosts of Saltmarsh', levels: [1, 10], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', tags: ['Naval', 'Político', 'Exploração', 'Contrabando'], pros: 'Ótimo "toolkit" naval; intriga política', cons: 'Requer trabalho para ligar as tramas', summary: 'Uma antologia de sete aventuras clássicas com tema náutico, centradas na cidade portuária de Saltmarsh.' },
+      { id: 'frostmaiden', name: 'Icewind Dale: Rime of the Frostmaiden', levels: [1, 12], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Muito Difícil', tags: ['Horror', 'Sobrevivência', 'Mistério', 'Exploração'], pros: 'Atmosfera única; segredos dos personagens', cons: 'Narrativa fragmentada; dificuldade extrema', summary: 'Uma campanha de horror e sobrevivência no Vale do Vento Gélido, onde um inverno eterno ameaça as Dez Cidades.' },
+      { id: 'radiantcitadel', name: 'Journeys through the Radiant Citadel', levels: [1, 14], structure: 'Antologia', difficultyDM: 'Fácil', difficultyP: 'Média', tags: ['Cultural', 'Social', 'Exploração'], pros: 'Diversidade de cenários; roleplay rico', cons: 'Qualidade inconsistente; sem trama central', summary: 'Uma antologia com treze aventuras inspiradas em culturas não-europeias, conectadas pela mágica Cidadela Radiante.' },
+      { id: 'goldenvault', name: 'Keys from the Golden Vault', levels: [1, 11], structure: 'Antologia', difficultyDM: 'Média', difficultyP: 'Média', tags: ['Assaltos (Heist)', 'Furtividade', 'Planejamento'], pros: 'Tema de "heist" divertido; mapas para jogadores', cons: 'Sistema 5e não ideal para assaltos', summary: 'Uma coleção de treze aventuras de assalto (heist) no estilo de "Onze Homens e um Segredo".' },
+      { id: 'abyss', name: 'Out of the Abyss', levels: [1, 15], structure: 'Híbrida', difficultyDM: 'Difícil', difficultyP: 'Difícil', tags: ['Sobrevivência', 'Underdark', 'Horror', 'Exploração'], pros: '1ª metade é tensa e memorável; ótimo guia do Underdark', cons: '2ª metade repetitiva; muitos NPCs', summary: 'Uma campanha de sobrevivência e horror no Underdark, começando com os personagens como prisioneiros dos drow.' },
+      { id: 'phandelver', name: 'Phandelver and Below: The Shattered Obelisk', levels: [1, 12], structure: 'Híbrida', difficultyDM: 'Média', difficultyP: 'Crescente', tags: ['Fantasia Clássica', 'Horror Cósmico'], pros: 'Expande a amada LMoP; conceito interessante', cons: 'Transição abrupta; segunda parte linear e falha', summary: 'Expande a aventura "Mina Perdida de Phandelver" com uma trama de horror cósmico envolvendo Devoradores de Mentes.' },
+      { id: 'apocalypse', name: 'Princes of the Apocalypse', levels: [1, 15], structure: 'Sandbox', difficultyDM: 'Média', difficultyP: 'Difícil', tags: ['Dungeon Crawl', 'Combate', 'Exploração'], pros: 'Grande liberdade; muitas masmorras', cons: 'Risco de TPK; pode ser repetitivo', summary: 'Uma campanha sandbox massiva focada em derrotar quatro cultos apocalípticos devotados ao Mal Elemental.' },
+      { id: 'staircase', name: 'Quests from the Infinite Staircase', levels: [1, 13], structure: 'Antologia', difficultyDM: 'Média', difficultyP: 'Difícil', tags: ['Old School', 'Exploração', 'Clássico'], pros: 'Celebração da história de D&D; diversidade', cons: 'Design datado pode não agradar a todos', summary: 'Uma antologia que atualiza seis aventuras clássicas de várias eras do jogo.' },
+      { id: 'netherdeep', name: 'Critical Role: Call of the Netherdeep', levels: [3, 12], structure: 'Linear', difficultyDM: 'Fácil', difficultyP: 'Fácil', tags: ['Narrativa', 'Rivalidade', 'Social'], pros: 'Mecânica de grupo rival; foco em roleplay', cons: 'Ritmo acelerado; menos conteúdo por nível', summary: 'Ambientada em Exandria, esta campanha foca na narrativa e na rivalidade com outro grupo de aventureiros.' },
+      { id: 'fortuneswheel', name: 'Turn of Fortune\'s Wheel', levels: [3, 17], structure: 'Linear', difficultyDM: 'Média', difficultyP: 'Média', tags: ['Exploração Planar', 'Conceitual', 'Mistério'], pros: 'Captura a essência de Planescape; mecânica de renascimento', cons: 'Trama pode ser confusa; salto de nível estranho', summary: 'A primeira campanha de Planescape para 5e, levando os jogadores por Sigil e as Terras Distantes.' },
+      { id: 'madmage', name: 'Waterdeep: Dungeon of the Mad Mage', levels: [5, 20], structure: 'Dungeon Crawl', difficultyDM: 'Difícil', difficultyP: 'Difícil', tags: ['Megadungeon', 'Exploração', 'Combate'], pros: 'A maior e melhor megadungeon da 5e', cons: 'Sem enredo abrangente; muito repetitivo', summary: 'Uma "megadungeon" de 23 níveis sob Waterdeep. É uma campanha de exploração, combate e pilhagem em escala monumental.' },
+      { id: 'vecna', name: 'Vecna: Eve of Ruin', levels: [10, 20], structure: 'Linear', difficultyDM: 'Média', difficultyP: 'Alta', tags: ['Épico', 'Alto Nível', 'Exploração Planar', 'Combate'], pros: 'Turnê pelo multiverso; muito "fan service"', cons: 'Exploração superficial dos mundos', summary: 'Uma campanha épica de alto nível contra o deus-lich Vecna, viajando por cenários icônicos.' },
+      { id: 'asmodeus', name: 'Chains of Asmodeus', levels: [11, 20], structure: 'Linear', difficultyDM: 'Difícil', difficultyP: 'Muito Alta', tags: ['Horror Infernal', 'Alto Nível', 'Pactos', 'Exploração'], pros: 'Guia definitivo dos Nove Infernos; campanha de alto nível', cons: 'Extremamente linear; falta de mapas de batalha', summary: 'Uma campanha massiva de alto nível que leva os jogadores por todas as nove camadas dos Nove Infernos.' },
     ];
 
     const difficultyMap = { 'Fácil': 1, 'Média': 2, 'Crescente': 2.5, 'Moderada': 2.5, 'Difícil': 3, 'Alta': 3.5, 'Muito Difícil': 4, 'Muito Alta': 4.5 };
-    const allStyles = [...new Set(campaignData.flatMap(c => c.focus.concat(c.structure)))];
+    const allStructures = [...new Set(campaignData.map(c => c.structure))];
+    const allTags = [...new Set(campaignData.flatMap(c => c.tags))];
     const allPlayerDifficulties = [...new Set(campaignData.map(c => c.difficultyP))];
     const allDmDifficulties = [...new Set(campaignData.map(c => c.difficultyDM))];
 
@@ -209,7 +220,8 @@
     let activeFilters = {
       name: '',
       level: 20,
-      styles: [],
+      structures: [],
+      tags: [],
       playerDifficulty: [],
       dmDifficulty: []
     };
@@ -222,19 +234,24 @@
     });
 
     function populateFilters() {
-      const styleContainer = document.getElementById('style-filters');
-      allStyles.sort().forEach(style => {
-        styleContainer.innerHTML += `<button data-filter="style" data-value="${style}" class="px-3 py-1 border border-gray-300 rounded-full text-sm hover:bg-amber-100 hover:border-amber-800 transition-colors">${style}</button>`;
+      const structureContainer = document.getElementById('structure-filters');
+      allStructures.sort().forEach(structure => {
+        structureContainer.innerHTML += `<button data-filter="structure" data-value="${structure}" class="px-3 py-1 border border-gray-600 rounded-full text-sm text-gray-300 hover:bg-gray-700 hover:border-amber-600 transition-colors">${structure}</button>`;
+      });
+
+      const tagsContainer = document.getElementById('tags-filters');
+      allTags.sort().forEach(tag => {
+        tagsContainer.innerHTML += `<button data-filter="tag" data-value="${tag}" class="px-3 py-1 border border-gray-600 rounded-full text-sm text-gray-300 hover:bg-gray-700 hover:border-amber-600 transition-colors">${tag}</button>`;
       });
 
       const playerDiffContainer = document.getElementById('player-difficulty-filters');
       allPlayerDifficulties.sort((a, b) => difficultyMap[a] - difficultyMap[b]).forEach(diff => {
-        playerDiffContainer.innerHTML += `<button data-filter="playerDifficulty" data-value="${diff}" class="px-3 py-1 border border-gray-300 rounded-full text-sm hover:bg-amber-100 hover:border-amber-800 transition-colors">${diff}</button>`;
+        playerDiffContainer.innerHTML += `<button data-filter="playerDifficulty" data-value="${diff}" class="px-3 py-1 border border-gray-600 rounded-full text-sm text-gray-300 hover:bg-gray-700 hover:border-amber-600 transition-colors">${diff}</button>`;
       });
 
       const dmDiffContainer = document.getElementById('dm-difficulty-filters');
       allDmDifficulties.sort((a, b) => difficultyMap[a] - difficultyMap[b]).forEach(diff => {
-        dmDiffContainer.innerHTML += `<button data-filter="dmDifficulty" data-value="${diff}" class="px-3 py-1 border border-gray-300 rounded-full text-sm hover:bg-amber-100 hover:border-amber-800 transition-colors">${diff}</button>`;
+        dmDiffContainer.innerHTML += `<button data-filter="dmDifficulty" data-value="${diff}" class="px-3 py-1 border border-gray-600 rounded-full text-sm text-gray-300 hover:bg-gray-700 hover:border-amber-600 transition-colors">${diff}</button>`;
       });
     }
 
@@ -246,22 +263,22 @@
       } else {
         campaigns.forEach(campaign => {
           const card = document.createElement('div');
-          card.className = 'campaign-card bg-white rounded-lg shadow border border-gray-200 overflow-hidden cursor-pointer';
+          card.className = 'campaign-card bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden cursor-pointer hover:border-amber-600';
           card.dataset.id = campaign.id;
 
           let tagsHTML = '';
-          campaign.focus.slice(0, 3).forEach(tag => {
-            tagsHTML += `<span class="bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${tag}</span>`;
+          campaign.tags.slice(0, 3).forEach(tag => {
+            tagsHTML += `<span class="bg-gray-700 text-amber-400 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${tag}</span>`;
           });
 
           card.innerHTML = `
                         <div class="p-5">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">${campaign.name}</h3>
-                            <p class="text-gray-600 mb-4 font-semibold">Níveis: ${campaign.levels[0]} - ${campaign.levels[1]}</p>
+                            <h3 class="text-xl font-bold text-white mb-2">${campaign.name}</h3>
+                            <p class="text-gray-400 mb-4 font-semibold">Níveis: ${campaign.levels[0]} - ${campaign.levels[1]}</p>
                             <div class="flex flex-wrap gap-y-2 mb-4">${tagsHTML}</div>
                             <div class="text-sm">
-                                <p class="mb-1"><strong class="text-gray-700">Jogador:</strong> <span class="font-medium">${campaign.difficultyP}</span></p>
-                                <p><strong class="text-gray-700">Mestre:</strong> <span class="font-medium">${campaign.difficultyDM}</span></p>
+                                <p class="mb-1"><strong class="text-gray-300">Jogador:</strong> <span class="font-medium text-gray-400">${campaign.difficultyP}</span></p>
+                                <p><strong class="text-gray-300">Mestre:</strong> <span class="font-medium text-gray-400">${campaign.difficultyDM}</span></p>
                             </div>
                         </div>
                     `;
@@ -275,11 +292,12 @@
       const filteredCampaigns = campaignData.filter(c => {
         const nameMatch = c.name.toLowerCase().includes(activeFilters.name.toLowerCase());
         const levelMatch = c.levels[1] <= activeFilters.level;
-        const styleMatch = activeFilters.styles.length === 0 || activeFilters.styles.every(s => c.focus.includes(s) || c.structure === s);
+        const structureMatch = activeFilters.structures.length === 0 || activeFilters.structures.includes(c.structure);
+        const tagsMatch = activeFilters.tags.length === 0 || activeFilters.tags.every(t => c.tags.includes(t));
         const playerDifficultyMatch = activeFilters.playerDifficulty.length === 0 || activeFilters.playerDifficulty.includes(c.difficultyP);
         const dmDifficultyMatch = activeFilters.dmDifficulty.length === 0 || activeFilters.dmDifficulty.includes(c.difficultyDM);
 
-        return nameMatch && levelMatch && styleMatch && playerDifficultyMatch && dmDifficultyMatch;
+        return nameMatch && levelMatch && structureMatch && tagsMatch && playerDifficultyMatch && dmDifficultyMatch;
       });
 
       renderCampaigns(filteredCampaigns);
@@ -305,17 +323,24 @@
 
           e.target.classList.toggle('active-filter');
 
-          if (activeFilters[filterType].includes(value)) {
-            activeFilters[filterType] = activeFilters[filterType].filter(item => item !== value);
+          let filterArray;
+          if (filterType === 'structure') filterArray = activeFilters.structures;
+          else if (filterType === 'tag') filterArray = activeFilters.tags;
+          else if (filterType === 'playerDifficulty') filterArray = activeFilters.playerDifficulty;
+          else if (filterType === 'dmDifficulty') filterArray = activeFilters.dmDifficulty;
+
+          if (filterArray.includes(value)) {
+            const index = filterArray.indexOf(value);
+            filterArray.splice(index, 1);
           } else {
-            activeFilters[filterType].push(value);
+            filterArray.push(value);
           }
           filterAndRender();
         }
       });
 
       document.getElementById('reset-filters').addEventListener('click', () => {
-        activeFilters = { name: '', level: 20, styles: [], playerDifficulty: [], dmDifficulty: [] };
+        activeFilters = { name: '', level: 20, structures: [], tags: [], playerDifficulty: [], dmDifficulty: [] };
 
         document.getElementById('search-name').value = '';
         document.getElementById('level-range').value = 20;
@@ -355,39 +380,39 @@
 
       modalTitle.textContent = campaign.name;
 
-      let focusTags = '';
-      campaign.focus.forEach(tag => {
-        focusTags += `<span class="bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${tag}</span>`;
+      let tagsHTML = '';
+      campaign.tags.forEach(tag => {
+        tagsHTML += `<span class="bg-gray-700 text-amber-400 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${tag}</span>`;
       });
 
       modalBody.innerHTML = `
-                <p class="text-gray-700 mb-6">${campaign.summary}</p>
+                <p class="text-gray-300 mb-6">${campaign.summary}</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 text-center">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-sm text-gray-500">Níveis</p>
-                        <p class="text-2xl font-bold text-gray-800">${campaign.levels[0]} – ${campaign.levels[1]}</p>
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400">Níveis</p>
+                        <p class="text-2xl font-bold text-white">${campaign.levels[0]} – ${campaign.levels[1]}</p>
                     </div>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-sm text-gray-500">Estrutura</p>
-                        <p class="text-2xl font-bold text-gray-800">${campaign.structure}</p>
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400">Estrutura</p>
+                        <p class="text-2xl font-bold text-white">${campaign.structure}</p>
                     </div>
-                     <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-sm text-gray-500">Dificuldade (Jogador)</p>
-                        <p class="text-2xl font-bold text-gray-800">${campaign.difficultyP}</p>
+                     <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm text-gray-400">Dificuldade (Jogador)</p>
+                        <p class="text-2xl font-bold text-white">${campaign.difficultyP}</p>
                     </div>
                 </div>
                  <div class="mb-6">
-                    <h4 class="text-lg font-bold mb-2 text-gray-800">Foco Principal:</h4>
-                    <div class="flex flex-wrap gap-2">${focusTags}</div>
+                    <h4 class="text-lg font-bold mb-2 text-white">Temáticas Principais:</h4>
+                    <div class="flex flex-wrap gap-2">${tagsHTML}</div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <h4 class="text-lg font-bold mb-2 text-green-700">Pontos Positivos</h4>
-                        <p class="text-gray-700 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">${campaign.pros}</p>
+                        <h4 class="text-lg font-bold mb-2 text-green-400">Pontos Positivos</h4>
+                        <p class="text-gray-300 bg-gray-900 p-4 rounded-lg border-l-4 border-green-500">${campaign.pros}</p>
                     </div>
                     <div>
-                        <h4 class="text-lg font-bold mb-2 text-red-700">Pontos Negativos</h4>
-                        <p class="text-gray-700 bg-red-50 p-4 rounded-lg border-l-4 border-red-500">${campaign.cons}</p>
+                        <h4 class="text-lg font-bold mb-2 text-red-400">Pontos Negativos</h4>
+                        <p class="text-gray-300 bg-gray-900 p-4 rounded-lg border-l-4 border-red-500">${campaign.cons}</p>
                     </div>
                 </div>
             `;
@@ -403,6 +428,9 @@
     }
 
     function createCharts(data) {
+      const textColor = '#d1d5db';
+      const gridColor = 'rgba(255, 255, 255, 0.1)';
+
       const difficultyCtx = document.getElementById('difficultyChart').getContext('2d');
       difficultyChart = new Chart(difficultyCtx, {
         type: 'scatter',
@@ -410,7 +438,7 @@
           datasets: [{
             label: 'Campanhas',
             data: data.map(c => ({ x: difficultyMap[c.difficultyDM], y: difficultyMap[c.difficultyP], label: c.name })),
-            backgroundColor: 'rgba(160, 82, 45, 0.7)',
+            backgroundColor: 'rgba(217, 119, 6, 0.8)',
             pointRadius: 8,
             pointHoverRadius: 12
           }]
@@ -420,24 +448,32 @@
           maintainAspectRatio: false,
           scales: {
             x: {
-              title: { display: true, text: 'Dificuldade do Mestre' },
+              title: { display: true, text: 'Dificuldade do Mestre', color: textColor },
               min: 0.5, max: 5,
               ticks: {
                 stepSize: 1,
+                color: textColor,
                 callback: value => Object.keys(difficultyMap).find(key => difficultyMap[key] === value) || ''
-              }
+              },
+              grid: { color: gridColor }
             },
             y: {
-              title: { display: true, text: 'Dificuldade do Jogador' },
+              title: { display: true, text: 'Dificuldade do Jogador', color: textColor },
               min: 0.5, max: 5,
               ticks: {
                 stepSize: 1,
+                color: textColor,
                 callback: value => Object.keys(difficultyMap).find(key => difficultyMap[key] === value) || ''
-              }
+              },
+              grid: { color: gridColor }
             }
           },
           plugins: {
+            legend: { display: false },
             tooltip: {
+              backgroundColor: '#374151',
+              titleColor: '#ffffff',
+              bodyColor: '#d1d5db',
               callbacks: {
                 label: function (context) {
                   return context.raw.label;
@@ -456,8 +492,8 @@
           datasets: [{
             label: 'Faixa de Nível',
             data: data.map(c => c.levels),
-            backgroundColor: 'rgba(160, 82, 45, 0.6)',
-            borderColor: 'rgba(160, 82, 45, 1)',
+            backgroundColor: 'rgba(217, 119, 6, 0.7)',
+            borderColor: 'rgba(251, 191, 36, 1)',
             borderWidth: 1,
             borderSkipped: false
           }]
@@ -470,21 +506,28 @@
             x: {
               min: 1,
               max: 20,
-              title: { display: true, text: 'Nível do Personagem' }
+              title: { display: true, text: 'Nível do Personagem', color: textColor },
+              ticks: { color: textColor },
+              grid: { color: gridColor }
             },
             y: {
               ticks: {
+                color: textColor,
                 autoSkip: false,
                 callback: function (value, index, values) {
                   const label = this.getLabelForValue(value);
                   return label.length > 20 ? label.substring(0, 20) + '...' : label;
                 }
-              }
+              },
+              grid: { color: 'transparent' }
             }
           },
           plugins: {
             legend: { display: false },
             tooltip: {
+              backgroundColor: '#374151',
+              titleColor: '#ffffff',
+              bodyColor: '#d1d5db',
               callbacks: {
                 label: function (context) {
                   return `${context.dataset.label}: ${context.raw[0]} - ${context.raw[1]}`;
@@ -511,25 +554,25 @@
       switch (type) {
         case 'new-dm':
           document.querySelector('button[data-filter="dmDifficulty"][data-value="Fácil"]').click();
+          document.querySelector('button[data-filter="structure"][data-value="Antologia"]')?.click();
           break;
         case 'roleplay':
-          document.querySelector('button[data-filter="style"][data-value="Social"]').click();
-          document.querySelector('button[data-filter="style"][data-value="Narrativa"]').click();
+          document.querySelector('button[data-filter="tag"][data-value="Social"]').click();
+          document.querySelector('button[data-filter="tag"][data-value="Narrativa"]')?.click();
           break;
         case 'combat':
-          document.querySelector('button[data-filter="style"][data-value="Combate"]').click();
-          document.querySelector('button[data-filter="style"][data-value="Dungeon Crawl"]').click();
+          document.querySelector('button[data-filter="tag"][data-value="Combate"]').click();
+          document.querySelector('button[data-filter="structure"][data-value="Dungeon Crawl"]')?.click();
           break;
         case 'epic':
           document.getElementById('level-range').value = 20;
           document.getElementById('level-value').textContent = 20;
           activeFilters.level = 20;
-          document.querySelector('button[data-filter="playerDifficulty"][data-value="Alta"]')?.click();
-          document.querySelector('button[data-filter="playerDifficulty"][data-value="Muito Alta"]')?.click();
+          document.querySelector('button[data-filter="tag"][data-value="Alto Nível"]')?.click();
           break;
         case 'diy':
           document.querySelector('button[data-filter="dmDifficulty"][data-value="Difícil"]').click();
-          document.querySelector('button[data-filter="style"][data-value="Sandbox"]')?.click();
+          document.querySelector('button[data-filter="structure"][data-value="Sandbox"]')?.click();
           break;
       }
     }
